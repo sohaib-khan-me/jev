@@ -33,7 +33,13 @@ export default function App() {
   return (
     <div className="app">
       <header className="topbar">
-        <h1>JEV Audience Field Evaluator</h1>
+        <div className="brand">
+          <div className="brand-mark">J</div>
+          <div>
+            <h1>JEV Audience Field Evaluator</h1>
+            <p className="tagline">Plain-English campaign → the exact database field, decided by JEV</p>
+          </div>
+        </div>
         <nav>
           {PAGES.map(([key, label]) => (
             <button key={key} className={page === key ? "tab active" : "tab"} onClick={() => setPage(key)}>
@@ -53,9 +59,6 @@ export default function App() {
         {page === "history" && <EvaluationHistory />}
       </main>
 
-      <footer>
-        Fictional FAST-NUCES-style test data. Results describe this POC dataset only, not JEV in general.
-      </footer>
     </div>
   );
 }

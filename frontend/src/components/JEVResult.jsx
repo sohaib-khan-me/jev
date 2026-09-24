@@ -14,6 +14,28 @@ export default function JEVResult({ result }) {
       </div>
       {result.source === "mock" && <p className="banner mock">Synthetic mock output. This is not a JEV decision.</p>}
 
+      {!isError && result.selected_field && (
+        <div className={`decision ${result.correct === true ? "is-correct" : result.correct === false ? "is-wrong" : ""}`}>
+          <div className="decision-main">
+            <div className="decision-label">JEV selected</div>
+            <div className="decision-field">{result.selected_field}</div>
+            <div className="decision-campaign">“{result.campaign}”</div>
+          </div>
+          <div className="decision-side">
+            <div className="decision-label">Confidence</div>
+            <div className="decision-conf">{formatPercent(result.confidence)}</div>
+            <div className="decision-meter">
+              <span style={{ width: `${(result.confidence ?? 0) * 100}%` }} />
+            </div>
+            <div className="decision-meta">
+              {formatMs(result.latency_ms)}
+              {result.correct === true && <span className="verdict ok">✓ Correct</span>}
+              {result.correct === false && <span className="verdict bad">✗ Incorrect</span>}
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="kv">
         <div>Campaign</div>
         <div>{result.campaign}</div>
