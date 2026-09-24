@@ -1,0 +1,34 @@
+{
+  "description": "POC field-selection test set for fast_jev_test (fictional FAST-NUCES-style data). Expected fields were written before any JEV results were seen. 'ambiguous_with' lists defensible alternatives; picking one still counts as incorrect but is reported separately.",
+  "version": 1,
+  "test_cases": [
+    {"id": "TC001", "category": "easy", "campaign": "Find students from Peshawar.", "expected_field": "students.city", "ambiguous_with": ["campuses.city"], "notes": "'From' suggests hometown (students.city), but campuses.city also contains Peshawar."},
+    {"id": "TC002", "category": "easy", "campaign": "Find female students.", "expected_field": "students.gender"},
+    {"id": "TC003", "category": "easy", "campaign": "Find students with CGPA above 3.5.", "expected_field": "students.cgpa"},
+    {"id": "TC004", "category": "easy", "campaign": "Find students in semester 8.", "expected_field": "students.semester", "ambiguous_with": ["enrollments.semester_name"], "notes": "enrollments.semester_name holds Fall/Spring, not a number."},
+    {"id": "TC005", "category": "easy", "campaign": "Find students admitted in 2022.", "expected_field": "students.admission_year", "ambiguous_with": ["enrollments.enrollment_year"]},
+    {"id": "TC006", "category": "easy", "campaign": "Find students older than 23.", "expected_field": "students.age"},
+
+    {"id": "TC007", "category": "medium", "campaign": "Target high-performing students.", "expected_field": "students.cgpa", "ambiguous_with": ["enrollments.marks", "enrollments.grade"], "notes": "Overall performance is CGPA; per-course marks are a weaker proxy."},
+    {"id": "TC008", "category": "medium", "campaign": "Find students receiving merit scholarships.", "expected_field": "students.scholarship_status"},
+    {"id": "TC009", "category": "medium", "campaign": "Target currently active students.", "expected_field": "students.student_status", "ambiguous_with": ["enrollments.enrollment_status"]},
+    {"id": "TC010", "category": "medium", "campaign": "Find students from Islamabad.", "expected_field": "students.city", "ambiguous_with": ["campuses.city"]},
+    {"id": "TC011", "category": "medium", "campaign": "Reach students who are about to graduate.", "expected_field": "students.student_status", "ambiguous_with": ["students.semester"], "notes": "student_status contains 'Graduating'; semester 8 is an indirect signal."},
+
+    {"id": "TC012", "category": "hard", "campaign": "Find students with strong academic performance.", "expected_field": "students.cgpa", "ambiguous_with": ["enrollments.marks", "enrollments.grade"]},
+    {"id": "TC013", "category": "hard", "campaign": "Target students in their final year.", "expected_field": "students.semester", "ambiguous_with": ["students.admission_year", "students.student_status"], "notes": "Final year = semesters 7-8; admission_year is an indirect proxy."},
+    {"id": "TC014", "category": "hard", "campaign": "Find recently enrolled students.", "expected_field": "enrollments.enrollment_year", "ambiguous_with": ["students.admission_year"], "notes": "Genuinely ambiguous: 'enrolled' could mean admitted to the university or enrolled in a course. Kept as specified."},
+    {"id": "TC015", "category": "hard", "campaign": "Find students who need financial support.", "expected_field": "students.scholarship_status", "notes": "scholarship_status contains 'Need Based'."},
+    {"id": "TC016", "category": "hard", "campaign": "Target younger students.", "expected_field": "students.age", "ambiguous_with": ["students.semester", "students.admission_year"]},
+
+    {"id": "TC017", "category": "relational", "campaign": "Find students taking Machine Learning.", "expected_field": "courses.course_name", "ambiguous_with": ["courses.course_code"], "notes": "Requires students -> enrollments -> courses."},
+    {"id": "TC018", "category": "relational", "campaign": "Find students enrolled in Database Systems.", "expected_field": "courses.course_name", "ambiguous_with": ["courses.course_code"], "notes": "Requires students -> enrollments -> courses."},
+    {"id": "TC019", "category": "relational", "campaign": "Find students who scored above 90.", "expected_field": "enrollments.marks", "ambiguous_with": ["enrollments.grade", "students.cgpa"], "notes": "Marks are per enrollment, so this joins students -> enrollments."},
+    {"id": "TC020", "category": "relational", "campaign": "Find students who got an A grade in any course.", "expected_field": "enrollments.grade", "ambiguous_with": ["enrollments.marks"]},
+    {"id": "TC021", "category": "relational", "campaign": "Find students in the Artificial Intelligence department.", "expected_field": "departments.department_name", "ambiguous_with": ["departments.department_code"], "notes": "Requires students -> departments."},
+    {"id": "TC022", "category": "relational", "campaign": "Find students studying at the Karachi campus.", "expected_field": "campuses.campus_name", "ambiguous_with": ["campuses.city", "students.city"], "notes": "Requires students -> departments -> campuses. campus_name 'Karachi Campus' vs campuses.city 'Karachi' are both defensible."},
+
+    {"id": "TC023", "category": "multi_field", "campaign": "Find female students from Peshawar.", "expected_fields": ["students.gender", "students.city"], "notes": "Two conditions. A single-choice question can only return one; excluded from single-field accuracy."},
+    {"id": "TC024", "category": "multi_field", "campaign": "Target active students with CGPA above 3.5.", "expected_fields": ["students.student_status", "students.cgpa"], "notes": "Two conditions. Excluded from single-field accuracy."}
+  ]
+}

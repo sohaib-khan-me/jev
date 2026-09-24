@@ -1,0 +1,17 @@
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "audience_field": {
+      "type": "choice",
+      "choice": "students.cgpa",
+      "confidence": 0.81,
+      "probabilities": {
+        "students.age": 0.03,
+        "students.cgpa": 0.88,
+        "students.semester": 0.05,
+        "enrollments.marks": 0.04
+      }
+    }
+  },
+  "usage": {"input_tokens": 640, "output_tokens": 41}
+}
